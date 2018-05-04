@@ -55,9 +55,10 @@ namespace KubernetesProbeDemo.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody]HealthCheckModel healthCheckModel)
+        public ActionResult Post([FromBody]HealthCheckModel healthCheckModel)
         {
             _healthCheckRepository.Set(healthCheckModel);
+            return Ok(_healthCheckRepository.Get());
         }
     }
 }

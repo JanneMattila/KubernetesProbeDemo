@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace KubernetesProbeDemo.Models
 {
@@ -9,5 +10,14 @@ namespace KubernetesProbeDemo.Models
 
         [JsonProperty(PropertyName = "liveness")]
         public bool LivenessCheck { get; set; }
+
+        [JsonProperty(PropertyName = "server")]
+        public string Server
+        {
+            get
+            {
+                return Environment.MachineName;
+            }
+        }
     }
 }

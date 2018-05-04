@@ -16,14 +16,15 @@ kind: Deployment
 metadata:
   name: kubernetesprobedemo
 spec:
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
         app: kubernetesprobedemo
     spec:
       containers:
-      - image: jannemattila/kubernetesprobedemo:latest
+      - image: kubernetesprobedemo:v1
+        imagePullPolicy: IfNotPresent
         name: kubernetesprobedemo
         livenessProbe:
           httpGet:
@@ -32,16 +33,23 @@ spec:
           initialDelaySeconds: 5
           timeoutSeconds: 1
           periodSeconds: 10
-          failureThreshold: 2
+          failureThreshold: 1
         readinessProbe:
           httpGet:
             path: /api/HealthCheck/Readiness
             port: 80
-          initialDelaySeconds: 30
+          initialDelaySeconds: 10
           timeoutSeconds: 1
           periodSeconds: 10
-          failureThreshold: 3
+          failureThreshold: 1
         ports:
         - containerPort: 80
           name: http
           protocol: TCP
+        env:
+          - name: webhook
+            value: "http://echo:31111/api/echo"
+          - name: livenessCheck
+            value: "true"
+          - name: readinessCheck
+            value: "true"
