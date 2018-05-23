@@ -11,5 +11,6 @@
         public const string HealthCheck = "HealthCheck";
         public const string LivenessCheck = "LivenessCheck";
         public const string ReadinessCheck = "ReadinessCheck";
+        public const string Shutdown = "Shutdown";
     }
 }

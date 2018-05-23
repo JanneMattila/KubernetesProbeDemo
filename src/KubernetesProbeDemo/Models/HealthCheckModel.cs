@@ -11,6 +11,9 @@ namespace KubernetesProbeDemo.Models
         [JsonProperty(PropertyName = "liveness")]
         public bool LivenessCheck { get; set; }
 
+        [JsonProperty(PropertyName = "shutdown", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public bool Shutdown { get; set; }
+
         [JsonProperty(PropertyName = "server")]
         public string Server
         {

@@ -1,6 +1,8 @@
 ﻿using KubernetesProbeDemo.Models;
 using KubernetesProbeDemo.Services;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -9,8 +11,8 @@ namespace KubernetesProbeDemo.Controllers
     [Route("api/[controller]")]
     public class HealthCheckController : Controller
     {
-        private IWebhookHandler _webhookHandler;
-        private IHealthCheckRepository _healthCheckRepository;
+        private readonly IWebhookHandler _webhookHandler;
+        private readonly IHealthCheckRepository _healthCheckRepository;
 
         public HealthCheckController(IWebhookHandler webhookHandler, IHealthCheckRepository healthCheckRepository)
         {
@@ -55,9 +57,20 @@ namespace KubernetesProbeDemo.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody]HealthCheckModel healthCheckModel)
+        public async Task<ActionResult> Post([FromBody]HealthCheckModel healthCheckModel)
         {
             _healthCheckRepository.Set(healthCheckModel);
+
+            if (healthCheckModel.Shutdown)
+            {
+                await _webhookHandler.InvokeAsync(
+                    WebhookEvents.Shutdown,
+                    _healthCheckRepository.Get());
+
+                // Exit this process with failure code
+                Environment.Exit(123);
+            }
+
             return Ok(_healthCheckRepository.Get());
         }
     }
