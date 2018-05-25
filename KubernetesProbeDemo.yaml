@@ -22,6 +22,7 @@ spec:
       labels:
         app: kubernetesprobedemo
     spec:
+      restartPolicy: Always
       containers:
       - image: kubernetesprobedemo:v1
         imagePullPolicy: IfNotPresent
