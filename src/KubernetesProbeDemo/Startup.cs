@@ -41,7 +41,7 @@ namespace KubernetesProbeDemo
             services.AddSingleton(webhookHandler);
             services.AddSingleton(healthCheckRepository);
 
-            services.AddSingleton<Microsoft.Extensions.Hosting.IHostedService, BackgroundService>();
+            services.AddSingleton<Microsoft.Extensions.Hosting.IHostedService, BackgroundReportingService>();
             services.AddMvc();
         }
 

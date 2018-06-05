@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 
 namespace KubernetesProbeDemo.Services
 {
-    public class BackgroundService : IHostedService
+    public class BackgroundReportingService : BackgroundService
     {
-        private IWebhookHandler _webhookHandler;
-        private IHealthCheckRepository _healthCheckRepository;
+        private readonly IWebhookHandler _webhookHandler;
+        private readonly IHealthCheckRepository _healthCheckRepository;
 
-        public BackgroundService(IWebhookHandler webhookHandler, IHealthCheckRepository healthCheckRepository)
+        public BackgroundReportingService(IWebhookHandler webhookHandler, IHealthCheckRepository healthCheckRepository)
         {
             _webhookHandler = webhookHandler;
             _healthCheckRepository = healthCheckRepository;
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             await _webhookHandler.InvokeAsync(
                 WebhookEvents.BackgroundServiceStarted, 
@@ -31,7 +31,7 @@ namespace KubernetesProbeDemo.Services
             }
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken)
+        public override async Task StopAsync(CancellationToken cancellationToken)
         {
             await _webhookHandler.InvokeAsync(
                 WebhookEvents.BackgroundServiceStopped,
