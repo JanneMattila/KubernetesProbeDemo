@@ -1,21 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>eef8b3a2-fbb0-402a-bcee-0f62007727d5</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.6" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>
 
 </Project>

@@ -1,20 +1,20 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace KubernetesProbeDemo.Models
 {
     public class HealthCheckModel
     {
-        [JsonProperty(PropertyName = "readiness")]
+        [JsonPropertyName("readiness")]
         public bool ReadinessCheck { get; set; }
 
-        [JsonProperty(PropertyName = "liveness")]
+        [JsonPropertyName("liveness")]
         public bool LivenessCheck { get; set; }
 
-        [JsonProperty(PropertyName = "shutdown", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonPropertyName("shutdown")]
         public bool Shutdown { get; set; }
 
-        [JsonProperty(PropertyName = "server")]
+        [JsonPropertyName("server")]
         public string Server
         {
             get

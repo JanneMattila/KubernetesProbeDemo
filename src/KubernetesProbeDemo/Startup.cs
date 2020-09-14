@@ -4,19 +4,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace KubernetesProbeDemo
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-               .SetBasePath(env.ContentRootPath)
-               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-               .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-               .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -46,14 +42,23 @@ namespace KubernetesProbeDemo
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            app.UseStaticFiles();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+            });
         }
     }
 }
