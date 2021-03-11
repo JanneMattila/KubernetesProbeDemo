@@ -33,7 +33,7 @@ namespace KubernetesProbeDemo.Controllers
         /// <returns>Current service health check status</returns>
         /// <response code="200">Returns service health check status</response>
         /// <response code="503">Returns service unavailable</response>
-        [ProducesResponseType(typeof(HealthCheckModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HealthCheckModelResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         [HttpGet]
         public ActionResult Get()
@@ -117,10 +117,20 @@ namespace KubernetesProbeDemo.Controllers
         /// <param name="request">Updated health check data</param>
         /// <returns>Current health check data</returns>
         /// <response code="200">Returns health check data</response>
+        /// <response code="409">Returns health check data but does not change state</response>
         [HttpPost]
-        [ProducesResponseType(typeof(HealthCheckModel), StatusCodes.Status200OK)]
-        public async Task<ActionResult> Post([FromBody]HealthCheckModel request)
+        [ProducesResponseType(typeof(HealthCheckModelResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(HealthCheckModelResponse), StatusCodes.Status409Conflict)]
+        public async Task<ActionResult> Post([FromBody] HealthCheckModelRequest request)
         {
+            if (!string.IsNullOrEmpty(request.Condition))
+            {
+                if (request.Condition != Environment.MachineName)
+                {
+                    return Conflict(_healthCheckRepository.Get());
+                }
+            }
+
             _healthCheckRepository.Set(request);
 
             if (request.Shutdown)

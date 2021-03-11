@@ -27,7 +27,7 @@ namespace KubernetesProbeDemo
             // Following lines can throw if configuration is not correctly set.
             // This correctly prevents container from starting in error scenario.
             // Might throw->
-            var healthCheckModel = new HealthCheckModel()
+            var healthCheckModel = new HealthCheckModelResponse()
             {
                 LivenessCheck = Configuration.GetValue<bool>("livenessCheck"),
                 ReadinessCheck = Configuration.GetValue<bool>("readinessCheck")

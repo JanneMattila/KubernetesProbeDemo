@@ -5,6 +5,6 @@ namespace KubernetesProbeDemo.Services
 {
     public interface IWebhookHandler
     {
-        Task InvokeAsync(string invokeEvent, HealthCheckModel healthCheckModel);
+        Task InvokeAsync(string invokeEvent, HealthCheckModelResponse healthCheckModel);
     }
 }

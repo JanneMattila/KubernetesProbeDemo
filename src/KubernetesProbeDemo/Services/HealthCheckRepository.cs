@@ -4,25 +4,27 @@ namespace KubernetesProbeDemo.Services
 {
     public class HealthCheckRepository : IHealthCheckRepository
     {
-        private HealthCheckModel _healthCheckModel;
+        private readonly HealthCheckModelResponse _healthCheckModel;
 
         public HealthCheckRepository()
         {
-            _healthCheckModel = new HealthCheckModel()
+            _healthCheckModel = new HealthCheckModelResponse()
             {
                 LivenessCheck = true,
                 ReadinessCheck = true
             };
         }
 
-        public HealthCheckModel Get()
+        public HealthCheckModelResponse Get()
         {
             return _healthCheckModel;
         }
 
-        public void Set(HealthCheckModel healthCheckModel)
+        public void Set(HealthCheckModelRequest healthCheckModel)
         {
-            _healthCheckModel = healthCheckModel;
+            _healthCheckModel.LivenessCheck = healthCheckModel.LivenessCheck;
+            _healthCheckModel.ReadinessCheck = healthCheckModel.ReadinessCheck;
+            _healthCheckModel.Shutdown = healthCheckModel.Shutdown;
         }
     }
 }

@@ -4,7 +4,7 @@ namespace KubernetesProbeDemo.Services
 {
     public interface IHealthCheckRepository
     {
-        HealthCheckModel Get();
-        void Set(HealthCheckModel healthCheckModel);
+        HealthCheckModelResponse Get();
+        void Set(HealthCheckModelRequest healthCheckModel);
     }
 }

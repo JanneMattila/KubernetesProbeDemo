@@ -1,6 +1,6 @@
 # This Dockerfile contains Build and Release steps:
 # 1. Build image
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1.201-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /source
 
 # Cache nuget restore
@@ -12,7 +12,7 @@ COPY /src/KubernetesProbeDemo .
 RUN dotnet publish KubernetesProbeDemo.csproj --output /app/ --configuration Release
 
 # 2. Release image
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.3-alpine3.11 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
 EXPOSE 80
 
