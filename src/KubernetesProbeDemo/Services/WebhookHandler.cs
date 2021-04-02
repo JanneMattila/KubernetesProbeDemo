@@ -11,17 +11,25 @@ namespace KubernetesProbeDemo.Services
     public class WebhookHandler : IWebhookHandler
     {
         private readonly HttpClient _client = new();
+        private readonly bool _enabled;
 
         public WebhookHandler(string webhookUrl)
         {
-            _client.BaseAddress = new Uri(webhookUrl);
+            _enabled = !string.IsNullOrEmpty(webhookUrl);
+            if (_enabled)
+            {
+                _client.BaseAddress = new Uri(webhookUrl);
+            }
         }
 
         public async Task InvokeAsync(string invokeEvent, HealthCheckModelResponse healthCheckModel)
         {
-            var json = JsonSerializer.Serialize(healthCheckModel);
-            using var content = new StringContent(json, Encoding.UTF8, MediaTypeNames.Application.Json);
-            await _client.PostAsync($"?invoke={invokeEvent}", content);
+            if (_enabled)
+            {
+                var json = JsonSerializer.Serialize(healthCheckModel);
+                using var content = new StringContent(json, Encoding.UTF8, MediaTypeNames.Application.Json);
+                await _client.PostAsync($"?invoke={invokeEvent}", content);
+            }
         }
     }
 }
