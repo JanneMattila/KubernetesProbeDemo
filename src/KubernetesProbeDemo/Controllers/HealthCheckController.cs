@@ -63,6 +63,11 @@ namespace KubernetesProbeDemo.Controllers
                 WebhookEvents.LivenessCheck,
                 healthCheck);
 
+            if (healthCheck.LivenessDelay > 0)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(healthCheck.LivenessDelay));
+            }
+
             if (healthCheck.LivenessCheck)
             {
                 return Ok();

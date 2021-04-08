@@ -23,6 +23,7 @@ namespace KubernetesProbeDemo.Services
         public void Set(HealthCheckModelRequest healthCheckModel)
         {
             _healthCheckModel.LivenessCheck = healthCheckModel.LivenessCheck;
+            _healthCheckModel.LivenessDelay = healthCheckModel.LivenessDelay;
             _healthCheckModel.ReadinessCheck = healthCheckModel.ReadinessCheck;
             _healthCheckModel.Shutdown = healthCheckModel.Shutdown;
         }

@@ -11,6 +11,10 @@ namespace KubernetesProbeDemo.Models
         [JsonPropertyName("liveness")]
         public bool LivenessCheck { get; set; }
 
+        [JsonPropertyName("livenessDelay")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public int LivenessDelay { get; set; }
+
         [JsonPropertyName("shutdown")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool Shutdown { get; set; }
