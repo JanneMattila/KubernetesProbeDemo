@@ -13,6 +13,9 @@ namespace KubernetesProbeDemo.Models
         [JsonPropertyName("livenessDelay")]
         public int LivenessDelay { get; set; }
 
+        [JsonPropertyName("livenessDelayDuration")]
+        public int LivenessDelayDuration { get; set; }
+
         [JsonPropertyName("shutdown")]
         public bool Shutdown { get; set; }
 

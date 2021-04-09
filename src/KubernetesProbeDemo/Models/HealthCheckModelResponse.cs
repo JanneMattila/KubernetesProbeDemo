@@ -15,6 +15,10 @@ namespace KubernetesProbeDemo.Models
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int LivenessDelay { get; set; }
 
+        [JsonPropertyName("livenessDelayDuration")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public DateTime LivenessDelayDuration { get; set; }
+
         [JsonPropertyName("shutdown")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool Shutdown { get; set; }
