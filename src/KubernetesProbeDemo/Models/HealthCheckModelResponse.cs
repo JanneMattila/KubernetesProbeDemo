@@ -27,5 +27,8 @@ namespace KubernetesProbeDemo.Models
                 return Environment.MachineName;
             }
         }
+
+        [JsonPropertyName("started")]
+        public DateTime Started { get; set; }
     }
 }

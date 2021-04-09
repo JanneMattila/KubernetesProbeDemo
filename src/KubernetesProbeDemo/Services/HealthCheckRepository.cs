@@ -1,4 +1,5 @@
 ﻿using KubernetesProbeDemo.Models;
+using System;
 
 namespace KubernetesProbeDemo.Services
 {
@@ -11,7 +12,8 @@ namespace KubernetesProbeDemo.Services
             _healthCheckModel = new HealthCheckModelResponse()
             {
                 LivenessCheck = true,
-                ReadinessCheck = true
+                ReadinessCheck = true,
+                Started = DateTime.UtcNow
             };
         }
 
