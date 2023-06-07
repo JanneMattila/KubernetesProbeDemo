@@ -1,10 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace KubernetesProbeDemo.Models
+namespace KubernetesProbeDemo.Models;
+
+public class ResourceUsageRequest
 {
-    public class ResourceUsageRequest
-    {
-        [JsonPropertyName("duration")]
-        public long Duration { get; set; }
-    }
+    [JsonPropertyName("duration")]
+    public long Duration { get; set; }
 }

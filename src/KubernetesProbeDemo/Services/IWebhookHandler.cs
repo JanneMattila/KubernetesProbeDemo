@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using KubernetesProbeDemo.Models;
+﻿using KubernetesProbeDemo.Models;
+using System.Threading.Tasks;
 
-namespace KubernetesProbeDemo.Services
+namespace KubernetesProbeDemo.Services;
+
+public interface IWebhookHandler
 {
-    public interface IWebhookHandler
-    {
-        Task InvokeAsync(string invokeEvent, HealthCheckModelResponse healthCheckModel);
-    }
+    Task InvokeAsync(string invokeEvent, HealthCheckModelResponse healthCheckModel);
 }

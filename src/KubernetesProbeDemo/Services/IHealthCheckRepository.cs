@@ -1,10 +1,9 @@
 ﻿using KubernetesProbeDemo.Models;
 
-namespace KubernetesProbeDemo.Services
+namespace KubernetesProbeDemo.Services;
+
+public interface IHealthCheckRepository
 {
-    public interface IHealthCheckRepository
-    {
-        HealthCheckModelResponse Get();
-        void Set(HealthCheckModelRequest healthCheckModel);
-    }
+    HealthCheckModelResponse Get();
+    void Set(HealthCheckModelRequest healthCheckModel);
 }
