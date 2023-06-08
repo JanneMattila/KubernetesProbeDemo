@@ -1,5 +1,4 @@
-﻿using KubernetesProbeDemo.Models;
-using System.Net.Mime;
+﻿using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
 
@@ -12,18 +11,18 @@ public class WebhookHandler : IWebhookHandler
 
     public WebhookHandler(string? webhookUrl)
     {
-        _enabled = !string.IsNullOrEmpty(webhookUrl);
-        if (_enabled)
+        if (!string.IsNullOrEmpty(webhookUrl))
         {
             _client.BaseAddress = new Uri(webhookUrl);
+            _enabled = true;
         }
     }
 
-    public async Task InvokeAsync(string invokeEvent, HealthCheckModelResponse healthCheckModel)
+    public async Task InvokeAsync(string invokeEvent, object data)
     {
         if (_enabled)
         {
-            var json = JsonSerializer.Serialize(healthCheckModel);
+            var json = JsonSerializer.Serialize(data);
             using var content = new StringContent(json, Encoding.UTF8, MediaTypeNames.Application.Json);
             await _client.PostAsync($"?invoke={invokeEvent}", content);
         }

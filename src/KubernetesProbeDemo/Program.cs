@@ -8,6 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 var webhook = builder.Configuration["webhook"];
 var livenessCheck = builder.Configuration.GetValue<bool>("livenessCheck");
 var readinessCheck = builder.Configuration.GetValue<bool>("readinessCheck");
+var delayStartup = builder.Configuration.GetValue("delayStartup", 0);
+var delayShutdown = builder.Configuration.GetValue("delayShutdown", 10);
+
+builder.Services.Configure<BackgroundReportingServiceOptions>(options =>
+{
+    options.DelayStartup = delayStartup;
+    options.DelayShutdown = delayShutdown;
+});
 
 // Following lines can throw if configuration is not correctly set.
 // This correctly prevents container from starting in error scenario.
@@ -73,4 +81,20 @@ app.UseSwaggerUI(c =>
 app.MapRazorPages();
 app.MapControllers();
 
-app.Run();
+try
+{
+    app.Run();
+}
+catch (Exception ex)
+{
+    await webhookHandler.InvokeAsync(WebhookEvents.AppException,
+        new
+        {
+            exception = ex.ToString(),
+            healthCheck = healthCheckRepository.Get()
+        });
+}
+finally
+{
+    await webhookHandler.InvokeAsync(WebhookEvents.AppStopped, healthCheckRepository.Get());
+}

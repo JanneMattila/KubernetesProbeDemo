@@ -5,7 +5,6 @@ namespace KubernetesProbeDemo.Models;
 public class HealthCheckModelResponse
 {
     [JsonPropertyName("startup")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool StartupCheck { get; set; }
 
     [JsonPropertyName("readiness")]
