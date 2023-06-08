@@ -4,6 +4,9 @@ namespace KubernetesProbeDemo.Models;
 
 public class HealthCheckModelRequest
 {
+    [JsonPropertyName("startup")]
+    public bool StartupCheck { get; set; }
+
     [JsonPropertyName("readiness")]
     public bool ReadinessCheck { get; set; }
 

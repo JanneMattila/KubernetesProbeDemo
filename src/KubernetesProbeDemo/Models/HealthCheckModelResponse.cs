@@ -1,15 +1,22 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace KubernetesProbeDemo.Models;
 
 public class HealthCheckModelResponse
 {
+    [JsonPropertyName("startup")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool StartupCheck { get; set; }
+
     [JsonPropertyName("readiness")]
     public bool ReadinessCheck { get; set; }
 
     [JsonPropertyName("liveness")]
     public bool LivenessCheck { get; set; }
+
+    [JsonPropertyName("startupDelay")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int StartupDelay { get; set; }
 
     [JsonPropertyName("livenessDelay")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

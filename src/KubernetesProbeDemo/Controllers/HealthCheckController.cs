@@ -1,10 +1,7 @@
 ﻿using KubernetesProbeDemo.Models;
 using KubernetesProbeDemo.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace KubernetesProbeDemo.Controllers;
 
@@ -39,6 +36,40 @@ public class HealthCheckController : Controller
     public ActionResult Get()
     {
         return Ok(_healthCheckRepository.Get());
+    }
+
+    /// <summary>
+    /// Get startup probe status.
+    /// </summary>
+    /// <remarks>
+    /// Example startup check request:
+    ///
+    ///     GET /api/HealthCheck/Startup
+    ///
+    /// </remarks>
+    /// <returns>Current startup data</returns>
+    /// <response code="200">Returns startup status</response>
+    /// <response code="503">Returns service unavailable</response>
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+    [HttpGet("Startup")]
+    public async Task<ActionResult> GetStartup()
+    {
+        var healthCheck = _healthCheckRepository.Get();
+        await _webhookHandler.InvokeAsync(
+            WebhookEvents.StartupCheck,
+            healthCheck);
+
+        if (healthCheck.StartupDelay > 0)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(healthCheck.StartupDelay));
+        }
+
+        if (healthCheck.StartupCheck)
+        {
+            return Ok();
+        }
+        return StatusCode((int)HttpStatusCode.ServiceUnavailable);
     }
 
     /// <summary>
