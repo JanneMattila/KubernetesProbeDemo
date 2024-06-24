@@ -7,6 +7,9 @@ GET {{endpoint}}/api/healthcheck
 GET {{endpoint}}/api/healthcheck/liveness
 
 ###
+HEAD {{endpoint}}/api/healthcheck/liveness
+
+###
 POST {{endpoint}}/api/healthcheck HTTP/1.1
 Content-Type: application/json
 

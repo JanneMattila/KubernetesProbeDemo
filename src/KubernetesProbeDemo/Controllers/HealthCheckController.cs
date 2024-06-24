@@ -57,6 +57,7 @@ public class HealthCheckController : Controller
     [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [HttpGet("Startup")]
+    [HttpHead("Startup")]
     public async Task<ActionResult> GetStartup()
     {
         var healthCheck = _healthCheckRepository.Get();
@@ -93,6 +94,7 @@ public class HealthCheckController : Controller
     [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [HttpGet("Liveness")]
+    [HttpHead("Liveness")]
     public async Task<ActionResult> GetLiveness()
     {
         var healthCheck = _healthCheckRepository.Get();
@@ -129,6 +131,7 @@ public class HealthCheckController : Controller
     [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [HttpGet("Readiness")]
+    [HttpHead("Readiness")]
     public async Task<ActionResult> GetReadiness()
     {
         var healthCheck = _healthCheckRepository.Get();
