@@ -11,6 +11,7 @@ public class HealthCheckRepository : IHealthCheckRepository
     {
         _healthCheckModel = new HealthCheckModelResponse()
         {
+            StartupCheck = true,
             LivenessCheck = true,
             ReadinessCheck = true,
             Started = DateTime.UtcNow
@@ -30,9 +31,13 @@ public class HealthCheckRepository : IHealthCheckRepository
 
     public void Set(HealthCheckModelRequest healthCheckModel)
     {
+        _healthCheckModel.StartupCheck = healthCheckModel.StartupCheck;
+        _healthCheckModel.StartupStatusCode = healthCheckModel.StartupStatusCode;
         _healthCheckModel.LivenessCheck = healthCheckModel.LivenessCheck;
+        _healthCheckModel.LivenessStatusCode = healthCheckModel.LivenessStatusCode;
         _healthCheckModel.LivenessDelay = healthCheckModel.LivenessDelay;
         _healthCheckModel.ReadinessCheck = healthCheckModel.ReadinessCheck;
+        _healthCheckModel.ReadinessStatusCode = healthCheckModel.ReadinessStatusCode;
         _healthCheckModel.Shutdown = healthCheckModel.Shutdown;
         _healthCheckModel.LivenessDelayDuration = healthCheckModel.LivenessDelayDuration != 0 ?
             DateTime.UtcNow.AddSeconds(healthCheckModel.LivenessDelayDuration) : default;

@@ -11,7 +11,7 @@ stages:
   jobs:
   - job: Build
     pool:
-      vmImage: ubuntu-20.04
+      vmImage: ubuntu-latest
     steps:
     - task: Docker@2
       inputs:
@@ -22,4 +22,4 @@ stages:
         buildContext:
         tags: |
           $(Build.BuildNumber)
-          latest    
+          latest

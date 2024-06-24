@@ -1,6 +1,40 @@
-@endpoint = http://localhost:63009
+@endpoint = http://localhost:63010
 
-####
+###
+GET {{endpoint}}/api/healthcheck
+
+###
+GET {{endpoint}}/api/healthcheck/liveness
+
+###
+POST {{endpoint}}/api/healthcheck HTTP/1.1
+Content-Type: application/json
+
+{
+  "startup": true,
+  "readiness": true,
+  "liveness": false,
+  "livenessStatusCode": 429
+}
+
+###
+POST {{endpoint}}/api/healthcheck HTTP/1.1
+Content-Type: application/json
+
+{
+  "startup": true,
+  "startupStatusCode": 0,
+  "readiness": true,
+  "readinessStatusCode": 0,
+  "liveness": true,
+  "livenessStatusCode": 0,
+  "livenessDelay": 0,
+  "livenessDelayDuration": 0,
+  "shutdown": true,
+  "condition": ""
+}
+
+###
 POST {{endpoint}}/api/resourceusage HTTP/1.1
 Content-Type: application/json
 

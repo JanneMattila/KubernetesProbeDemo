@@ -25,5 +25,5 @@ your own availability game.
 docker build . -t kubernetesprobedemo:v1
 
 # Run container
-kubectl apply -f KubernetesProbeDemo.yaml --record
+kubectl apply -f KubernetesProbeDemo.yaml
 ``` 

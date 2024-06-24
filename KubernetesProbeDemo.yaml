@@ -24,6 +24,9 @@ metadata:
   namespace: kubedemo
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: kubernetesprobedemo
   template:
     metadata:
       labels:
@@ -60,24 +63,24 @@ spec:
           name: http
           protocol: TCP
         env:
-          - name: webhook
-            value: "http://echo:31111/api/echo"
+          #- name: webhook
+          #  value: "http://echo:31111/api/echo"
           - name: livenessCheck
             value: "true"
           - name: readinessCheck
             value: "true"
 ---
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: kubernetesprobedemo
-  namespace: kubedemo
-spec:
-  minReplicas: 3
-  maxReplicas: 10
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: kubernetesprobedemo
-    namespace: kubernetesprobedemo
-  targetCPUUtilizationPercentage: 50
+#apiVersion: autoscaling/v1
+#kind: HorizontalPodAutoscaler
+#metadata:
+#  name: kubernetesprobedemo
+#  namespace: kubedemo
+#spec:
+#  minReplicas: 3
+#  maxReplicas: 10
+#  scaleTargetRef:
+#    apiVersion: apps/v1
+#    kind: Deployment
+#    name: kubernetesprobedemo
+#    namespace: kubernetesprobedemo
+#  targetCPUUtilizationPercentage: 50

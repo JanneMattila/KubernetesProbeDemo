@@ -29,8 +29,10 @@ public class HealthCheckController : Controller
     /// </remarks>
     /// <returns>Current service health check status</returns>
     /// <response code="200">Returns service health check status</response>
+    /// <response code="429">Returns too many request</response>
     /// <response code="503">Returns service unavailable</response>
     [ProducesResponseType(typeof(HealthCheckModelResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [HttpGet]
     public ActionResult Get()
@@ -49,8 +51,10 @@ public class HealthCheckController : Controller
     /// </remarks>
     /// <returns>Current startup data</returns>
     /// <response code="200">Returns startup status</response>
+    /// <response code="429">Returns too many request</response>
     /// <response code="503">Returns service unavailable</response>
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [HttpGet("Startup")]
     public async Task<ActionResult> GetStartup()
@@ -69,7 +73,7 @@ public class HealthCheckController : Controller
         {
             return Ok();
         }
-        return StatusCode((int)HttpStatusCode.ServiceUnavailable);
+        return StatusCode(statusCode: healthCheck.StartupStatusCode == 0 ? (int)HttpStatusCode.ServiceUnavailable : healthCheck.StartupStatusCode);
     }
 
     /// <summary>
@@ -83,8 +87,10 @@ public class HealthCheckController : Controller
     /// </remarks>
     /// <returns>Current liveness data</returns>
     /// <response code="200">Returns liveness status</response>
+    /// <response code="429">Returns too many request</response>
     /// <response code="503">Returns service unavailable</response>
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [HttpGet("Liveness")]
     public async Task<ActionResult> GetLiveness()
@@ -103,7 +109,7 @@ public class HealthCheckController : Controller
         {
             return Ok();
         }
-        return StatusCode((int)HttpStatusCode.ServiceUnavailable);
+        return StatusCode(statusCode: healthCheck.LivenessStatusCode == 0 ? (int)HttpStatusCode.ServiceUnavailable : healthCheck.LivenessStatusCode);
     }
 
     /// <summary>
@@ -117,7 +123,10 @@ public class HealthCheckController : Controller
     /// </remarks>
     /// <returns>Current readiness data</returns>
     /// <response code="200">Returns readiness status</response>
+    /// <response code="429">Returns too many request</response>
     /// <response code="503">Returns service unavailable</response>
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [HttpGet("Readiness")]
     public async Task<ActionResult> GetReadiness()
@@ -131,7 +140,7 @@ public class HealthCheckController : Controller
         {
             return Ok();
         }
-        return StatusCode((int)HttpStatusCode.ServiceUnavailable);
+        return StatusCode(statusCode: healthCheck.ReadinessStatusCode == 0 ? (int)HttpStatusCode.ServiceUnavailable : healthCheck.ReadinessStatusCode);
     }
 
     /// <summary>

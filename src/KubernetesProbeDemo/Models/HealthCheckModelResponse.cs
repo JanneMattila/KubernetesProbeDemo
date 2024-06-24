@@ -7,11 +7,23 @@ public class HealthCheckModelResponse
     [JsonPropertyName("startup")]
     public bool StartupCheck { get; set; }
 
+    [JsonPropertyName("startupStatusCode")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int StartupStatusCode { get; set; }
+
     [JsonPropertyName("readiness")]
     public bool ReadinessCheck { get; set; }
 
+    [JsonPropertyName("readinessStatusCode")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int ReadinessStatusCode { get; set; }
+
     [JsonPropertyName("liveness")]
     public bool LivenessCheck { get; set; }
+
+    [JsonPropertyName("livenessStatusCode")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int LivenessStatusCode { get; set; }
 
     [JsonPropertyName("startupDelay")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
