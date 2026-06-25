@@ -1,0 +1,70 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Tag name"
+        required: true
+      run_id:
+        description: "Run ID of the build (use 'latest' to use the last run ID)"
+        required: true
+        default: latest
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get last run ID of workflow "ci" if input is "latest"
+        if: ${{ github.event.inputs.run_id == 'latest' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          last_run_id=$(gh run list --workflow="ci" --limit=1 --json databaseId --jq .[0].databaseId)
+          echo "Last run ID: $last_run_id"
+          echo "LAST_RUN_ID=$last_run_id" >> $GITHUB_ENV
+
+      - name: Set run ID
+        run: |
+          if [ "${{ github.event.inputs.run_id }}" == "latest" ]; then
+            echo "RUN_ID=${{ env.LAST_RUN_ID }}" >> $GITHUB_ENV
+          else
+            echo "RUN_ID=${{ github.event.inputs.run_id }}" >> $GITHUB_ENV
+          fi
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+          run-id: ${{ env.RUN_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Display structure of downloaded files
+        run: ls -R ./artifacts
+
+      # Compress each artifact to a zip file
+      - name: Compress artifacts
+        run: |
+          for dir in $(find ./artifacts -mindepth 1 -maxdepth 1 -type d); do
+            name=$(basename "$dir")
+            (cd "$dir" && zip -r "../$name.zip" .)
+          done
+
+      - name: Display structure of downloaded files
+        run: ls -R ./artifacts/*.zip
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag_name }}
+          make_latest: true
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            ./artifacts/kubernetesprobedemo.zip

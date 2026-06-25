@@ -1,6 +1,6 @@
 ﻿using KubernetesProbeDemo.Models;
 using KubernetesProbeDemo.Services;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -68,10 +68,7 @@ var app = builder.Build();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseSwagger(c =>
-{
-    c.SerializeAsV2 = true;
-});
+app.UseSwagger();
 
 app.UseSwaggerUI(c =>
 {
