@@ -44,3 +44,23 @@ Content-Type: application/json
 {
   "duration": 10
 }
+
+###
+POST {{endpoint}}/api/resourceusage HTTP/1.1
+Content-Type: application/json
+
+{
+  "memory": "1GB"
+}
+
+###
+POST {{endpoint}}/api/resourceusage HTTP/1.1
+Content-Type: application/json
+
+{
+  "memory": "10GB"
+}
+
+###
+DELETE {{endpoint}}/api/resourceusage HTTP/1.1
+Content-Type: application/json

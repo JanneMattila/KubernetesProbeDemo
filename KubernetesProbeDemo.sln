@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.10.35013.160
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11828.311 oobstable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{97624CD0-BD0B-403C-B499-9724A09AD24C}"
 EndProject
@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{9CB548
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		Dockerfile = Dockerfile
+		Dockerfile.windows = Dockerfile.windows
 		KubernetesProbeDemo.yaml = KubernetesProbeDemo.yaml
 	EndProjectSection
 EndProject
@@ -23,6 +24,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{06C2DE8C-7FEC-4159-A745-402893845099}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KubernetesProbeDemo", "src\KubernetesProbeDemo\KubernetesProbeDemo.csproj", "{224A7195-932D-416D-AC2C-6AB2CF8AC8F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{12EACA78-6D01-4E55-8D60-4FB452216293}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{8EAF5074-619F-4E8F-B097-F5B36B895BA3}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+		.github\workflows\release.yml = .github\workflows\release.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +49,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{224A7195-932D-416D-AC2C-6AB2CF8AC8F7} = {97624CD0-BD0B-403C-B499-9724A09AD24C}
+		{8EAF5074-619F-4E8F-B097-F5B36B895BA3} = {12EACA78-6D01-4E55-8D60-4FB452216293}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7116710A-7D27-4B61-BF4E-1B2F966352A2}
