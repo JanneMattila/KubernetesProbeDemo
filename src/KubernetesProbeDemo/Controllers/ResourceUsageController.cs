@@ -81,6 +81,8 @@ public class ResourceUsageController : Controller
                 response.Error = true;
                 response.Message = $"'{request.Memory}' is not a valid memory quantity.";
             }
+
+            PopulateMemoryUsage(response);
         }
 
         lock (_memoryLock)
@@ -89,6 +91,26 @@ public class ResourceUsageController : Controller
         }
 
         return Ok(response);
+    }
+
+    /// <summary>
+    /// Fills in the current machine memory usage, available memory and usage percentage.
+    /// </summary>
+    /// <param name="response">Response to populate.</param>
+    private static void PopulateMemoryUsage(ResourceUsageResponse response)
+    {
+        var memoryInfo = GC.GetGCMemoryInfo();
+
+        // TotalAvailableMemoryBytes honors container (cgroup) limits when running in Kubernetes.
+        var totalMemory = memoryInfo.TotalAvailableMemoryBytes;
+        var usedMemory = memoryInfo.MemoryLoadBytes;
+        var availableMemory = Math.Max(0, totalMemory - usedMemory);
+
+        response.MachineMemoryUsage = usedMemory;
+        response.AvailableMemory = availableMemory;
+        response.MemoryUsagePercentage = totalMemory > 0
+            ? Math.Round((double)usedMemory / totalMemory * 100d, 2)
+            : 0d;
     }
 
     /// <summary>
